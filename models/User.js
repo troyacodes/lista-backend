@@ -4,10 +4,7 @@ const UserSchema = new mongoose.Schema({
   username: String,
   email: String,
   password: String,
-  date: {
-    type: Date,
-    default: Date.now
-  }
+  createdAt: String
 });
 
 const User = mongoose.model('User', UserSchema);

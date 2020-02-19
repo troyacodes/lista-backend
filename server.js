@@ -1,18 +1,34 @@
 require('dotenv').config();
 
-const { ApolloServer } = require('apollo-server');
-const gql = require('graphql-tag');
+const { ApolloServer, gql } = require('apollo-server');
 const mongoose = require('mongoose');
 
+const List = require('./models/List');
+
 const typeDefs = gql`
+  type List {
+    id: ID!
+    count: Int!
+    description: String!
+    createdAt: String!
+    username: String!
+  }
+
   type Query {
-    sayHi: String!
+    getLists: [List]
   }
 `;
 
 const resolvers = {
   Query: {
-    sayHi: () => 'Hello World'
+    getLists: async () => {
+      try {
+        const lists = await List.find();
+        return lists;
+      } catch (err) {
+        throw new Error(err);
+      }
+    }
   }
 };
 

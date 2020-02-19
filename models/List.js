@@ -2,12 +2,33 @@ const mongoose = require('mongoose');
 
 const ListSchema = new mongoose.Schema({
   username: String,
-  title: String,
-  items: Array,
-  date: {
-    type: Date,
-    default: Date.now
-  }
+  count: Number,
+  description: String,
+  items: [
+    {
+      item: String,
+      reason: String,
+      createdAt: String
+    }
+  ],
+  comments: [
+    {
+      body: String,
+      username: String,
+      createdAt: String
+    }
+  ],
+  likes: [
+    {
+      username: String,
+      createdAt: String
+    }
+  ],
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'users'
+  },
+  createdAt: String
 });
 
 const List = mongoose.model('List', ListSchema);
