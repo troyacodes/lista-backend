@@ -7,7 +7,7 @@ const ListSchema = new mongoose.Schema({
   items: [
     {
       item: String,
-      reason: String,
+      description: String,
       createdAt: String
     }
   ],

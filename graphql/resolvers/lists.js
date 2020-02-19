@@ -9,6 +9,16 @@ module.exports = {
       } catch (err) {
         throw new Error(err);
       }
+    },
+    getList: async (_, { listId }) => {
+      try {
+        const list = await List.findById(listId);
+        if (list) {
+          return list;
+        }
+      } catch (err) {
+        throw new Error('List not found', err);
+      }
     }
   }
 };

@@ -26,10 +26,13 @@ module.exports = gql`
 
   type Query {
     getLists: [List]
+    getList(listId: ID!): List
   }
 
   type Mutation {
     register(registerInput: RegisterInput): User!
     login(username: String!, password: String!): User!
+    createList(count: Int!, description: String!): List!
+    deleteList(listId: ID!): String!
   }
 `;

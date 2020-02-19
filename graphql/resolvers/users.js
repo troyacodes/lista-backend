@@ -23,7 +23,7 @@ const generateJWT = user => {
 
 module.exports = {
   Mutation: {
-    async register(_, { registerInput: { username, email, password, confirmPassword } }, context, info) {
+    register: async (_, { registerInput: { username, email, password, confirmPassword } }, context, info) => {
       const { errors, isValid } = validateRegisterData(username, email, password, confirmPassword);
 
       if (!isValid) {
@@ -66,7 +66,7 @@ module.exports = {
       };
     },
 
-    async login(_, { username, password }) {
+    login: async (_, { username, password }) => {
       const { errors, isValid } = validateLoginData(username, password);
       if (!isValid) {
         throw new UserInputError('Errors', { errors });
