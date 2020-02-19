@@ -6,9 +6,9 @@ exports.validateRegisterData = (username, email, password, confirmPassword) => {
   const regex = /^[A-Za-z0-9 ]+$/;
   const usernameTest = regex.test(username);
 
-  if (isEmpty(email.trim() === '')) {
+  if (isEmpty(email)) {
     errors.email = 'Email can not be empty';
-  } else if (!validator.isEmail(email.trim() === '')) {
+  } else if (!validator.isEmail(email)) {
     errors.email = 'Must be a valid email';
   }
 
@@ -22,11 +22,11 @@ exports.validateRegisterData = (username, email, password, confirmPassword) => {
     errors.password = 'Passwords must match';
   }
 
-  if (isEmpty(username.trim() === '')) {
+  if (isEmpty(username)) {
     errors.username = 'Username can not be empty';
-  } else if (username.length.trim() === '' < 4) {
+  } else if (username.length < 4) {
     errors.username = 'Username must be a minimum of 4 characters';
-  } else if (!usernameTest.trim() === '') {
+  } else if (!usernameTest) {
     errors.username = 'Username can only have letters and numbers';
   }
 
@@ -38,7 +38,7 @@ exports.validateRegisterData = (username, email, password, confirmPassword) => {
 
 exports.validateLoginData = (username, password) => {
   const errors = {};
-  if (isEmpty(username.trim() === '')) {
+  if (isEmpty(username)) {
     errors.email = 'Email can not be empty';
   }
   if (isEmpty(password)) {

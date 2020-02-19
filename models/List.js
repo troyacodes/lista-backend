@@ -4,11 +4,11 @@ const ListSchema = new mongoose.Schema({
   username: String,
   count: Number,
   description: String,
-  items: [
+  listItems: [
     {
       item: String,
       description: String,
-      createdAt: String
+      order: Number
     }
   ],
   comments: [
