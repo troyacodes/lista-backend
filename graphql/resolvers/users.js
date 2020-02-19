@@ -5,7 +5,21 @@ const { UserInputError } = require('apollo-server');
 
 const User = require('../../models/User');
 
-const { validateRegisterData } = require('../../util/validators');
+const { validateRegisterData, validateLoginData } = require('../../util/validators');
+
+const generateJWT = user => {
+  return jwt.sign(
+    {
+      id: user.id,
+      email: user.email,
+      username: user.username
+    },
+    process.env.SECRET_KEY,
+    {
+      expiresIn: '1h'
+    }
+  );
+};
 
 module.exports = {
   Mutation: {
@@ -41,23 +55,41 @@ module.exports = {
         createdAt: new Date().toISOString()
       });
 
-      const res = await newUser.save();
+      const user = await newUser.save();
 
-      const token = jwt.sign(
-        {
-          id: res.id,
-          email: res.email,
-          username: res.username
-        },
-        process.env.SECRET_KEY,
-        {
-          expiresIn: '1h'
-        }
-      );
+      const token = generateJWT(user);
 
       return {
-        ...res._doc,
-        id: res._id,
+        ...user._doc,
+        id: user._id,
+        token
+      };
+    },
+
+    async login(_, { username, password }) {
+      const { errors, isValid } = validateLoginData(username, password);
+      if (!isValid) {
+        throw new UserInputError('Errors', { errors });
+      }
+
+      const user = await User.findOne({ username });
+
+      if (!user) {
+        errors.general = 'User not found';
+        throw new UserInputError('User not found', { errors });
+      }
+
+      const match = await bcrypt.compare(password, user.password);
+      if (!match) {
+        errors.general = 'Invalid Credentials';
+        throw new UserInputError('Invalid Credentials', { errors });
+      }
+
+      const token = generateJWT(user);
+
+      return {
+        ...user._doc,
+        id: user._id,
         token
       };
     }
