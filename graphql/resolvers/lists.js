@@ -1,4 +1,4 @@
-const { AuthenticationError } = require('apollo-server');
+const { AuthenticationError, UserInputError } = require('apollo-server');
 
 const List = require('../../models/List');
 const authCheck = require('../../util/authCheck');
@@ -69,6 +69,25 @@ module.exports = {
         }
       } catch (err) {
         throw new Error(err);
+      }
+    },
+    likeList: async (_, { listId }, context) => {
+      const { username } = authCheck(context);
+      const list = await List.findById(listId);
+
+      if (list) {
+        if (list.likes.find(like => like.username === username)) {
+          list.likes = list.likes.filter(like => like.username !== username);
+        } else {
+          list.likes.push({
+            username,
+            createdAt: new Date().toISOString()
+          });
+        }
+        await list.save();
+        return list;
+      } else {
+        throw new UserInputError('List not found');
       }
     }
   }
