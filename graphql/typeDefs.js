@@ -7,13 +7,28 @@ module.exports = gql`
     order: Int!
   }
 
+  type Comment {
+    id: ID!
+    body: String!
+    username: String!
+    createdAt: String!
+  }
+
+  type Like {
+    id: ID!
+    username: String!
+    createdAt: String!
+  }
+
   type List {
     id: ID!
     count: Int!
     description: String!
-    listItems: [ListItems]
+    listItems: [ListItems]!
     createdAt: String!
     username: String!
+    comments: [Comment]!
+    likes: [Like]!
   }
 
   type User {
@@ -44,8 +59,11 @@ module.exports = gql`
   type Mutation {
     register(registerInput: RegisterInput): User!
     login(username: String!, password: String!): User!
-    createList(count: Int!, description: String!, listItems: [ListItemsInput!]): List!
+    createList(count: Int!, description: String!, listItems: [ListItemsInput]!): List!
     deleteList(listId: ID!): String!
-    updateListItems(listId: ID!, listItems: [ListItemsInput!]): List!
+    updateListItems(listId: ID!, listItems: [ListItemsInput]!): List!
+    createComment(listId: ID!, body: String!): List!
+    deleteComment(listId: ID!, commentId: ID!): List!
+    likeList(listId: ID!): List!
   }
 `;
