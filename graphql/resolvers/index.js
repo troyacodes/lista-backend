@@ -1,8 +1,11 @@
 const listResolvers = require('./lists');
-const userResolver = require('./users');
+const usersResolver = require('./users');
 
 module.exports = {
   Query: {
     ...listResolvers.Query
+  },
+  Mutation: {
+    ...usersResolver.Mutation
   }
 };
