@@ -56,7 +56,7 @@ module.exports = gql`
 
   type Query {
     getLists: [List]
-    getList(listId: ID!): List
+    getList(listId: ID!): List!
   }
 
   type Mutation {
