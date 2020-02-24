@@ -2,12 +2,15 @@ const mongoose = require('mongoose');
 
 const ListSchema = new mongoose.Schema({
   username: String,
-  count: Number,
-  description: String,
+  title: {
+    phrase: String,
+    count: Number,
+    description: String
+  },
   tags: [String],
   items: [
     {
-      item: String,
+      name: String,
       description: String,
       order: Number
     }

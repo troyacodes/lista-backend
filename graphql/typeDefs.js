@@ -1,8 +1,14 @@
 const { gql } = require('apollo-server');
 
 module.exports = gql`
+  type Title {
+    phrase: String!
+    count: Int!
+    description: String!
+  }
+
   type Items {
-    item: String!
+    name: String!
     description: String!
     order: Int!
   }
@@ -22,8 +28,7 @@ module.exports = gql`
 
   type List {
     id: ID!
-    count: Int!
-    description: String!
+    title: Title!
     tags: [String]!
     items: [Items]!
     createdAt: String!
@@ -49,8 +54,14 @@ module.exports = gql`
     email: String!
   }
 
+  input TitleInput {
+    phrase: String!
+    count: Int!
+    description: String!
+  }
+
   input ItemsInput {
-    item: String!
+    name: String!
     description: String!
   }
 
@@ -62,7 +73,7 @@ module.exports = gql`
   type Mutation {
     register(registerInput: RegisterInput): User!
     login(username: String!, password: String!): User!
-    createList(count: Int!, description: String!, tags: [String]!, items: [ItemsInput]!): List!
+    createList(title: TitleInput!, tags: [String]!, items: [ItemsInput]!): List!
     deleteList(listId: ID!): String!
     updateItems(listId: ID!, items: [ItemsInput]!): List!
     updateTags(listId: ID!, tags: [String]!): List!

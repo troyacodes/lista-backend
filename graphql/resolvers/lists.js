@@ -25,11 +25,10 @@ module.exports = {
     }
   },
   Mutation: {
-    createList: async (_, { count, description, tags, items }, context) => {
+    createList: async (_, { title, tags, items }, context) => {
       const user = authCheck(context);
       const newList = new List({
-        count,
-        description,
+        title,
         items: items.map((list, index) => ({ ...list, order: index + 1 })),
         tags,
         user: user.id,
