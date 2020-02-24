@@ -4,7 +4,8 @@ const ListSchema = new mongoose.Schema({
   username: String,
   count: Number,
   description: String,
-  listItems: [
+  tags: [String],
+  items: [
     {
       item: String,
       description: String,

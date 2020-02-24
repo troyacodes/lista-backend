@@ -25,13 +25,13 @@ module.exports = {
     }
   },
   Mutation: {
-    createList: async (_, { count, description, listItems }, context) => {
+    createList: async (_, { count, description, tags, items }, context) => {
       const user = authCheck(context);
-
       const newList = new List({
         count,
         description,
-        listItems: listItems.map((list, index) => ({ ...list, order: index + 1 })),
+        items: items.map((list, index) => ({ ...list, order: index + 1 })),
+        tags,
         user: user.id,
         username: user.username,
         createdAt: new Date().toISOString()
@@ -55,13 +55,28 @@ module.exports = {
         throw new Error(err);
       }
     },
-    updateListItems: async (_, { listId, listItems }, context) => {
+    updateItems: async (_, { listId, items }, context) => {
       const user = authCheck(context);
+
       try {
         const list = await List.findById(listId);
         if (user.username === list.username) {
-          list.listItems = listItems.map((list, index) => ({ ...list, order: index + 1 }));
-          console.log(list);
+          list.items = items.map((list, index) => ({ ...list, order: index + 1 }));
+          await list.save();
+          return list;
+        } else {
+          throw new AuthenticationError('Action not allowed');
+        }
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+    updateTags: async (_, { listId, tags }, context) => {
+      const user = authCheck(context);
+      const list = await List.findById(listId);
+      try {
+        if (user.username === list.username) {
+          list.tags = tags;
           await list.save();
           return list;
         } else {
