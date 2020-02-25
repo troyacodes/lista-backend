@@ -1,7 +1,7 @@
 const isEmpty = require('is-empty');
 const validator = require('validator');
 
-exports.validateRegisterData = (username, email, password, confirmPassword) => {
+exports.validateSignupData = (username, email, password, confirmPassword) => {
   const errors = {};
   const regex = /^[A-Za-z0-9 ]+$/;
   const usernameTest = regex.test(username);

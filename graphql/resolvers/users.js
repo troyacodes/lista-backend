@@ -5,7 +5,7 @@ const { UserInputError } = require('apollo-server');
 
 const User = require('../../models/User');
 
-const { validateRegisterData, validateLoginData } = require('../../util/validators');
+const { validateSignupData, validateLoginData } = require('../../util/validators');
 
 const generateJWT = user => {
   return jwt.sign(
@@ -23,8 +23,8 @@ const generateJWT = user => {
 
 module.exports = {
   Mutation: {
-    register: async (_, { registerInput: { username, email, password, confirmPassword } }, context, info) => {
-      const { errors, isValid } = validateRegisterData(username, email, password, confirmPassword);
+    signup: async (_, { signupInput: { username, email, password, confirmPassword } }, context, info) => {
+      const { errors, isValid } = validateSignupData(username, email, password, confirmPassword);
 
       if (!isValid) {
         throw new UserInputError('Errors', { errors });
