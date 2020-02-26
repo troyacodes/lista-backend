@@ -68,6 +68,7 @@ module.exports = gql`
   type Query {
     getLists: [List]
     getList(listId: ID!): List!
+    getListsWithTag(tag: String!): [List]
   }
 
   type Mutation {

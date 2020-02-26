@@ -22,15 +22,24 @@ module.exports = {
       } catch (err) {
         throw new Error('List not found', err);
       }
+    },
+    getListsWithTag: async (_, { tag }) => {
+      try {
+        const lists = await List.find({ tags: tag });
+        return lists;
+      } catch (err) {
+        throw new Error(err);
+      }
     }
   },
+
   Mutation: {
     createList: async (_, { title, tags, items }, context) => {
       const user = authCheck(context);
       const newList = new List({
         title,
         items: items.map((list, index) => ({ ...list, order: index + 1 })),
-        tags,
+        tags: tags.map(tag => tag.toLowerCase()),
         user: user.id,
         username: user.username,
         createdAt: new Date().toISOString()

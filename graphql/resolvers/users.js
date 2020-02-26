@@ -34,15 +34,15 @@ module.exports = {
       const checkEmail = await User.findOne({ email });
 
       if (checkUsername) {
-        throw new UserInputError('Username is taken', {
+        throw new UserInputError('Username already in use', {
           errors: {
-            username: 'Username is taken'
+            username: 'Username already in use'
           }
         });
       } else if (checkEmail) {
-        throw new UserInputError('Email is taken', {
+        throw new UserInputError('Email already in use', {
           errors: {
-            email: 'Email is taken'
+            email: 'Email already in use'
           }
         });
       }
@@ -75,14 +75,14 @@ module.exports = {
       const user = await User.findOne({ username });
 
       if (!user) {
-        errors.general = 'User not found';
-        throw new UserInputError('User not found', { errors });
+        errors.general = 'Invalid email or password';
+        throw new UserInputError('Invalid email or password', { errors });
       }
 
       const match = await bcrypt.compare(password, user.password);
       if (!match) {
-        errors.general = 'Invalid Credentials';
-        throw new UserInputError('Invalid Credentials', { errors });
+        errors.general = 'Invalid email or password';
+        throw new UserInputError('Invalid email or password', { errors });
       }
 
       const token = generateJWT(user);
