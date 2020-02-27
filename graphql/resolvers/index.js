@@ -2,6 +2,7 @@ const listResolvers = require('./lists');
 const usersResolver = require('./users');
 const commentsResolvers = require('./comments');
 const tagResolvers = require('./tags');
+const followResolvers = require('./follow');
 
 module.exports = {
   List: {
@@ -20,6 +21,7 @@ module.exports = {
     ...usersResolver.Mutation,
     ...listResolvers.Mutation,
     ...commentsResolvers.Mutation,
-    ...tagResolvers.Mutation
+    ...tagResolvers.Mutation,
+    ...followResolvers.Mutation
   }
 };
