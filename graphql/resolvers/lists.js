@@ -1,6 +1,7 @@
 const { AuthenticationError, UserInputError } = require('apollo-server');
 
 const List = require('../../models/List');
+const User = require('../../models/User');
 const authCheck = require('../../util/authCheck');
 
 module.exports = {
@@ -13,6 +14,20 @@ module.exports = {
         throw new Error(err);
       }
     },
+    getUserLists: async (_, { username }) => {
+      const user = await User.findOne({ username });
+      if (!user) {
+        throw new UserInputError('User not found');
+      }
+      try {
+        const lists = await List.find({ username: username });
+        if (lists) {
+          return lists;
+        }
+      } catch (err) {
+        throw new Error('List not found', err);
+      }
+    },
     getList: async (_, { listId }) => {
       try {
         const list = await List.findById(listId);
@@ -23,7 +38,7 @@ module.exports = {
         throw new Error('List not found', err);
       }
     },
-    getListsWithTag: async (_, { tag }) => {
+    getTagLists: async (_, { tag }) => {
       try {
         const lists = await List.find({ tags: tag });
         return lists;
