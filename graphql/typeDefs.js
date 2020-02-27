@@ -44,6 +44,8 @@ module.exports = gql`
     email: String!
     token: String!
     username: String!
+    following: [String]
+    followers: [String]
     createdAt: String!
   }
 
@@ -82,5 +84,6 @@ module.exports = gql`
     createComment(listId: ID!, body: String!): List!
     deleteComment(listId: ID!, commentId: ID!): List!
     likeList(listId: ID!): List!
+    followUser(userToFollow: String!): User!
   }
 `;
