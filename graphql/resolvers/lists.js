@@ -20,7 +20,7 @@ module.exports = {
         throw new UserInputError('User not found');
       }
       try {
-        const lists = await List.find({ username: username });
+        const lists = await List.find({ username: username }).sort({ createdAt: -1 });
         if (lists) {
           return lists;
         }
@@ -40,7 +40,7 @@ module.exports = {
     },
     getTagLists: async (_, { tag }) => {
       try {
-        const lists = await List.find({ tags: tag });
+        const lists = await List.find({ tags: tag }).sort({ createdAt: -1 });
         return lists;
       } catch (err) {
         throw new Error(err);
