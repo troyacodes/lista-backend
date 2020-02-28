@@ -76,6 +76,8 @@ module.exports = {
       const token = generateJWT(user);
 
       return {
+        ...user._doc,
+        id: user._id,
         token
       };
     },
@@ -102,6 +104,8 @@ module.exports = {
       const token = generateJWT(user);
 
       return {
+        ...user._doc,
+        id: user._id,
         token
       };
     }
