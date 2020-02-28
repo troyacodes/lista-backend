@@ -49,6 +49,15 @@ module.exports = gql`
     createdAt: String!
   }
 
+  type UserDetails {
+    id: ID!
+    email: String!
+    username: String!
+    following: [String]
+    followers: [String]
+    createdAt: String!
+  }
+
   input SignupInput {
     username: String!
     password: String!
@@ -72,6 +81,7 @@ module.exports = gql`
     getList(listId: ID!): List!
     getUserLists(username: String!): [List]
     getTagLists(tag: String!): [List]
+    getUserDetails(username: String!): UserDetails!
   }
 
   type Mutation {

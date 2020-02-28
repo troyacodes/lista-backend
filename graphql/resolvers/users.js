@@ -23,6 +23,19 @@ const generateJWT = user => {
 };
 
 module.exports = {
+  Query: {
+    getUserDetails: async (_, { username }) => {
+      try {
+        const user = await User.findOne({ username });
+        if (!user) {
+          throw new UserInputError('User not found');
+        }
+        return user;
+      } catch (err) {
+        throw new Error('User not found', err);
+      }
+    }
+  },
   Mutation: {
     signup: async (_, { signupInput: { username, email, password, confirmPassword } }, context, info) => {
       const { errors, isValid } = validateSignupData(username, email, password, confirmPassword);
@@ -63,8 +76,6 @@ module.exports = {
       const token = generateJWT(user);
 
       return {
-        ...user._doc,
-        id: user._id,
         token
       };
     },
@@ -91,8 +102,6 @@ module.exports = {
       const token = generateJWT(user);
 
       return {
-        ...user._doc,
-        id: user._id,
         token
       };
     }
