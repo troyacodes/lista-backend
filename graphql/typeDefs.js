@@ -81,7 +81,7 @@ module.exports = gql`
     getList(listId: ID!): List!
     getUserLists(username: String!): [List]
     getTagLists(tag: String!): [List]
-    getUserDetails(username: String!): UserDetails!
+    getUserDetails: UserDetails!
   }
 
   type Mutation {

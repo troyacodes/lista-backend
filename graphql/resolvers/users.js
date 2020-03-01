@@ -24,9 +24,10 @@ const generateJWT = user => {
 
 module.exports = {
   Query: {
-    getUserDetails: async (_, { username }) => {
+    getUserDetails: async (_, vars, context) => {
       try {
-        const user = await User.findOne({ username });
+        const currentUser = authCheck(context);
+        const user = await User.findOne({ username: currentUser.username });
         if (!user) {
           throw new UserInputError('User not found');
         }
