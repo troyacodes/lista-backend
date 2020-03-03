@@ -50,7 +50,7 @@ module.exports = {
     },
     getTimeline: async (_, { following }) => {
       try {
-        let lists = await List.find({ username: { $in: [...following] } }).sort({
+        const lists = await List.find({ username: { $in: following } }).sort({
           createdAt: -1
         });
         if (lists) {

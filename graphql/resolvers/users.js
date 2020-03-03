@@ -38,7 +38,10 @@ module.exports = {
     }
   },
   Mutation: {
-    signup: async (_, { signupInput: { username, email, password, confirmPassword } }, context, info) => {
+    signup: async (_, { signupInput: { username, email, password, confirmPassword } }) => {
+      username = username.trim();
+      password = password.trim();
+
       const { errors, isValid } = validateSignupData(username, email, password, confirmPassword);
 
       if (!isValid) {
@@ -84,6 +87,8 @@ module.exports = {
     },
 
     login: async (_, { username, password }) => {
+      username = username.trim();
+
       const { errors, isValid } = validateLoginData(username, password);
       if (!isValid) {
         throw new UserInputError('Errors', { errors });
@@ -92,14 +97,14 @@ module.exports = {
       const user = await User.findOne({ username });
 
       if (!user) {
-        errors.general = 'Invalid email or password';
-        throw new UserInputError('Invalid email or password', { errors });
+        errors.general = 'Invalid username or password';
+        throw new UserInputError('Invalid username or password', { errors });
       }
 
       const match = await bcrypt.compare(password, user.password);
       if (!match) {
-        errors.general = 'Invalid email or password';
-        throw new UserInputError('Invalid email or password', { errors });
+        errors.general = 'Invalid username or password';
+        throw new UserInputError('Invalid username or password', { errors });
       }
 
       const token = generateJWT(user);

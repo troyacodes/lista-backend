@@ -9,7 +9,7 @@ exports.validateSignupData = (username, email, password, confirmPassword) => {
   if (isEmpty(email)) {
     errors.email = 'Email can not be empty';
   } else if (!validator.isEmail(email)) {
-    errors.email = 'Must be a valid email';
+    errors.email = 'Invalid email';
   }
 
   if (isEmpty(password)) {
@@ -39,7 +39,7 @@ exports.validateSignupData = (username, email, password, confirmPassword) => {
 exports.validateLoginData = (username, password) => {
   const errors = {};
   if (isEmpty(username)) {
-    errors.email = 'Email can not be empty';
+    errors.username = 'Username can not be empty';
   }
   if (isEmpty(password)) {
     errors.password = 'Password can not be empty';
