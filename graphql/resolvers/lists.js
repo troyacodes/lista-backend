@@ -41,7 +41,21 @@ module.exports = {
     getTagLists: async (_, { tag }) => {
       try {
         const lists = await List.find({ tags: tag }).sort({ createdAt: -1 });
-        return lists;
+        if (lists) {
+          return lists;
+        }
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+    getTimeline: async (_, { following }) => {
+      try {
+        let lists = await List.find({ username: { $in: [...following] } }).sort({
+          createdAt: -1
+        });
+        if (lists) {
+          return lists;
+        }
       } catch (err) {
         throw new Error(err);
       }
