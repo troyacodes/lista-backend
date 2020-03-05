@@ -68,7 +68,7 @@ module.exports = {
       const newList = new List({
         title,
         items: items.map((list, index) => ({ ...list, order: index + 1 })),
-        tags: tags.map(tag => tag.toLowerCase()),
+        tags: tags.map(tag => tag.toLowerCase().trim()),
         user: user.id,
         username: user.username,
         createdAt: new Date().toISOString()
