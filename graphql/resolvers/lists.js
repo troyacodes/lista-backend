@@ -22,7 +22,10 @@ module.exports = {
       try {
         const lists = await List.find({ username: username }).sort({ createdAt: -1 });
         if (lists) {
-          return lists;
+          return {
+            user,
+            lists
+          };
         }
       } catch (err) {
         throw new Error('List not found', err);

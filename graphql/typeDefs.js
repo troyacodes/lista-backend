@@ -49,6 +49,11 @@ module.exports = gql`
     createdAt: String!
   }
 
+  type UserProfile {
+    user: User!
+    lists: [List]
+  }
+
   type UserDetails {
     id: ID!
     email: String!
@@ -79,7 +84,7 @@ module.exports = gql`
   type Query {
     getLists: [List]
     getList(listId: ID!): List!
-    getUserLists(username: String!): [List]
+    getUserLists(username: String!): UserProfile
     getTagLists(tag: String!): [List]
     getUserDetails: UserDetails!
     getTimeline(following: [String]!): [List]
