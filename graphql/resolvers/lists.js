@@ -68,9 +68,18 @@ module.exports = {
   Mutation: {
     createList: async (_, { title, tags, items }, context) => {
       const user = authCheck(context);
+      const errors = {};
+
+      items.forEach(item => {
+        if (item.name === '') {
+          errors.listError = 'Item name can not be empty';
+          throw new UserInputError('Item name can not be empty', { errors });
+        }
+      });
+
       const newList = new List({
         title,
-        items: items.map((list, index) => ({ ...list, order: index + 1 })),
+        items: items.map((item, index) => ({ ...item, order: index + 1 })),
         tags: tags.map(tag => tag.toLowerCase().trim()),
         user: user.id,
         username: user.username,

@@ -50,7 +50,7 @@ module.exports = gql`
   }
 
   type UserProfile {
-    user: User!
+    user: UserDetails!
     lists: [List]
   }
 
