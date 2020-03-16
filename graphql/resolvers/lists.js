@@ -71,7 +71,7 @@ module.exports = {
       const errors = {};
 
       items.forEach(item => {
-        if (item.name === '') {
+        if (!item.name.trim().length) {
           errors.listError = 'Item name can not be empty';
           throw new UserInputError('Item name can not be empty', { errors });
         }
